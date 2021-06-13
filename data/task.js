@@ -12,6 +12,11 @@ async function getTask(id){
     return tasks.find(task => task.id == id);
 }
 
+async function getTaskByPriority(priority){
+    const tasks = await getTasks();
+    return tasks.filter(task => task.prioridad == priority);
+}
+
 async function addTask(task){
     const tasks = await getTasks();
     tasks.sort((a, b) => a.id - b.id);
@@ -50,10 +55,16 @@ async function updateTask(task){
 
 async function deleteTask(id){
     
+    const tasks = await getTasks();
+    const i = tasks.findIndex(t => t.id == id);
 
+    if(i != -1){
+        tasks.splice(i,1);
+    }
 
-
+    await fs.writeFile(path,JSON.stringify(tasks,null,''));
+    
 }
 
 
-module.exports = {getTasks, getTask, addTask, updateTask, deleteTask};
+module.exports = {getTasks, getTask, addTask, updateTask, deleteTask, getTaskByPriority};

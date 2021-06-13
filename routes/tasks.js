@@ -8,6 +8,7 @@ router.get('/', async function(req, res) {
   res.json(tasks);
 });
 
+
 router.get('/:id', async (req, res) => {
   const task = await tasksData.getTask(req.params.id);
   
@@ -20,6 +21,17 @@ router.get('/:id', async (req, res) => {
   res.json(task);
 });
 
+
+router.get('/prioridad/:priority', async(req,res) =>{
+  const tasks = await tasksData.getTaskByPriority(req.params.priority);
+
+  if(tasks != null){
+    res.json(tasks);
+  } else {
+    res.send('No se encontraron tareas!');
+  }
+})
+
 //Agregar Task
 router.post('/', async (req, res) => {
   let task = req.body;
@@ -30,7 +42,6 @@ router.post('/', async (req, res) => {
 
 //Update a 1 task pasando su ID
 router.put('/:id', async (req, res) => {
-  //Falta validar
 
   let id = req.params.id;
   let task = req.body;
@@ -47,12 +58,12 @@ router.put('/:id', async (req, res) => {
 
 });
 
-/*
-router.delete(':/id', async(req, res) => {
+
+router.delete('/:id', async(req, res) => {
   let id = req.params.id;
   await tasksData.deleteTask(id);
   res.send('Tarea eliminada!');
 });
-*/
+
 
 module.exports = router;

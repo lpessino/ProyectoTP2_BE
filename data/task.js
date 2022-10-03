@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+require('dotenv').config();
 const path = './data/tasks.json';
 
 
